@@ -66,8 +66,11 @@ class stagerAcceil extends StatelessWidget {
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(20))),
                               onPressed: () {
-                                Navigator.of(context)
-                                    .pushNamed(stagerServices.screenRoute);
+                                // Navigator.of(context).pushNamed(stagerServices.screenRoute);
+                                Navigator.pushNamedAndRemoveUntil(
+                                    context,
+                                    stagerServices.screenRoute,
+                                    (route) => false);
                               },
                               child: Text(
                                 "Services",

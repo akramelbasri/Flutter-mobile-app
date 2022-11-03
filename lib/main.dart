@@ -1,43 +1,84 @@
 // import 'dart:js_util';
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:prj1_image_bg/Screens/Gestion_Admin_Pages/accueil.dart';
 import 'package:prj1_image_bg/Screens/Gestion_Admin_Pages/forms_inscription/Flash_msg.dart';
+import 'package:prj1_image_bg/Screens/Gestion_Admin_Pages/forms_inscription/gestion_stagers.dart';
 import 'package:prj1_image_bg/Screens/Gestion_Admin_Pages/forms_inscription/signup2.dart';
 import 'package:prj1_image_bg/Screens/Gestion_stagers_pages/stager_acceil.dart';
-import 'Screens/Gestion_Admin_Pages/Not_found_page.dart';
+import 'Screens/Animation_s/Spinner.dart';
+import 'Screens/Gestion_Admin_Pages/Categorie_of_formation.dart';
+import 'Screens/Gestion_Admin_Pages/forms_inscription/About_School.dart';
+import 'Screens/Gestion_Admin_Pages/forms_inscription/Add_Paiment.dart';
+import 'Screens/Gestion_Admin_Pages/forms_inscription/Search_stagerInfos.dart';
+import 'Screens/Gestion_Admin_Pages/forms_inscription/gestion_payement.dart';
+import 'Screens/Gestion_Admin_Pages/forms_inscription/gestion_stager_search_modify.dart';
+import 'Screens/not_found_pages_And_succees/Not_found_page_admin.dart';
 import 'Screens/Gestion_Admin_Pages/admin_infos.dart';
 import 'Screens/Gestion_Admin_Pages/forms_inscription/Etudiant_Inscription.dart';
+import 'Screens/Gestion_Admin_Pages/forms_inscription/add_stager.dart';
 import 'Screens/Gestion_stagers_pages/stager_login.dart';
 import 'Screens/Gestion_Admin_Pages/Admin_dashboard.dart';
 import '../widgets/app_Drawer.dart';
 import 'Screens/Gestion_stagers_pages/stager_services.dart';
+import 'Screens/not_found_pages_And_succees/add_stager_msg_succees.dart';
+import 'Screens/not_found_pages_And_succees/not_found_addStager.dart';
 
 void main() {
+  // Future<void> main() async {
+  //   WidgetsFlutterBinding.ensureInitialized();
+  //   await Firebase.initializeApp();
   runApp((MyApp()));
+  // }
 }
 
 // --------- page 1 -----------
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: "Named Routes Demo",
       // routes :
       initialRoute: "/",
       routes: {
-        '/': (ctx) => homePage(),
+        // Home page :
+        homePage.screenRoute: (ctx) => homePage(),
+        //  Admin : Gestion des services :
         admin_login.screenRoute: (context) => admin_login(),
         stagersPage.screenRoute: (context) => stagersPage(),
         AdminDashboard.screenRoute: (context) => AdminDashboard(),
         NotFoundPage.screenRoute: (context) => NotFoundPage(),
         AcceilPage.screenRoute: (context) => AcceilPage(),
+        // gestion d'inscription :
         EtudiantSignUp.screenRoute: (context) => EtudiantSignUp(),
         singnup2.screenRoute: (context) => singnup2(),
         FlashMsg.screenRoute: (context) => FlashMsg(),
+        // gestion des stager :
         stagerAcceil.screenRoute: (context) => stagerAcceil(),
         stagerServices.screenRoute: (context) => stagerServices(),
+        gestionStagers.screenRoute: (context) => gestionStagers(),
+        AddStager.screenRoute: (context) => AddStager(),
+        NotFoundPageAddStager.screenRoute: (context) => NotFoundPageAddStager(),
+        SucceesPageAddStager.screenRoute: (context) => SucceesPageAddStager(),
+        // Search and modify stager route :
+        SearchAndModifyStager.screenRoute: (context) => SearchAndModifyStager(),
+        StagerSearchInfos.screenRoute: (context) => StagerSearchInfos(),
+        Spinner.screenRoute: (context) => Spinner(),
+        //Formation categories
+        categoriesFormation.screenRoute: (context) => categoriesFormation(),
+        gestionPaiement.screenRoute: (context) =>
+            gestionPaiement(), // gestion de payement
+        AddPayement.screenRoute: (context) => AddPayement(), // add payement
+        aboutSchool.screenRoute: (context) => aboutSchool(), // about ima
       },
     );
   }
@@ -45,7 +86,7 @@ class MyApp extends StatelessWidget {
 
 class homePage extends StatelessWidget {
   const homePage({Key? key}) : super(key: key);
-
+  static const screenRoute = "/";
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -62,18 +103,124 @@ class homePage extends StatelessWidget {
             ),
             backgroundColor: Color.fromARGB(255, 31, 2, 100)),
         drawer: appDrawer(), // classe realiser
-        body: Center(
-          child: Image(
-            image: AssetImage('images/ima.png'),
-          ),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image(
+              image: AssetImage('images/ima.png'),
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.width / 4,
+            ),
+            // buttons :
+            Center(
+              child: buttondesign(
+                  context,
+                  20,
+                  Color.fromARGB(255, 26, 0, 194),
+                  Color.fromARGB(255, 18, 17, 17),
+                  Color.fromARGB(255, 0, 0, 0).withOpacity(0.6),
+                  Icon(
+                    Icons.group_sharp,
+                    size: 32,
+                    color: Color.fromARGB(255, 255, 255, 255).withOpacity(.9),
+                  ),
+                  " admin Account ",
+                  25,
+                  Colors.white, () {
+                Navigator.pushNamedAndRemoveUntil(
+                    context, admin_login.screenRoute, (route) => false);
+              }),
+            ),
+
+            // ),
+            SizedBox(
+              height: 12,
+            ),
+            Center(
+              child: buttondesign(
+                  context,
+                  20,
+                  Color.fromARGB(255, 26, 0, 194),
+                  Color.fromARGB(255, 18, 17, 17),
+                  Color.fromARGB(255, 0, 0, 0).withOpacity(0.6),
+                  Icon(
+                    Icons.group_sharp,
+                    size: 32,
+                    color: Color.fromARGB(255, 255, 255, 255).withOpacity(.9),
+                  ),
+                  " Stager Account ",
+                  25,
+                  Colors.white, () {
+                Navigator.pushNamedAndRemoveUntil(
+                    context, stagersPage.screenRoute, (route) => false);
+              }),
+            ),
+          ],
         ),
       ),
     );
   }
+
+  Container buttondesign(
+    BuildContext context,
+    double containerWidth,
+    Color color1,
+    Color color2,
+    Color shadowColor,
+    Icon iconType,
+    String btn_titre,
+    double fonSize,
+    Color btn_text_color,
+    Function onTap,
+  ) {
+    return Container(
+      width: MediaQuery.of(context).size.width - containerWidth,
+      height: 60,
+      decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [color1, color2],
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
+          ),
+          borderRadius: const BorderRadius.all(
+            Radius.circular(5),
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: shadowColor,
+              spreadRadius: 4,
+              blurRadius: 10,
+              offset: Offset(0, 3),
+            )
+          ]),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          iconType,
+          GestureDetector(
+            onTap: () => onTap(),
+            // {
+            // print("hello .............");
+            // },
+            child: Text(
+              btn_titre,
+              textAlign: TextAlign.left,
+              style: TextStyle(
+                // fontFamily: "Netflix",
+                fontWeight: FontWeight.w700,
+                fontSize: fonSize,
+                // letterSpacing: 0.0,
+                // color: Colors.white,
+                color: btn_text_color,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
-
-
-
 
 // ================= bottom  Navigation bar de 3 pages =========
 // class bottom_navigation extends StatefulWidget {

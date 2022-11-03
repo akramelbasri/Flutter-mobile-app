@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:prj1_image_bg/Screens/Gestion_Admin_Pages/forms_inscription/Etudiant_Inscription.dart';
-// import 'package:prj1_image_bg/Screens/Gestion_Admin_Pages/Screens/service.dart';
+import 'package:prj1_image_bg/main.dart';
 import '/widgets/app_Drawer.dart';
+import 'package:prj1_image_bg/Screens/Gestion_Admin_Pages/forms_inscription/gestion_stagers.dart';
+import 'Categorie_of_formation.dart';
+import 'package:prj1_image_bg/Screens/Gestion_Admin_Pages/forms_inscription/gestion_payement.dart';
+import './forms_inscription/About_School.dart';
 
 class AdminDashboard extends StatelessWidget {
   // const AdminDashboard({Key? key}) : super(key: key);
@@ -46,7 +50,8 @@ class AdminDashboard extends StatelessWidget {
                     color: Color.fromARGB(255, 13, 23, 158),
                   ),
                   onTap: () {
-                    Navigator.of(context).pushNamed(AdminDashboard.screenRoute);
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, AdminDashboard.screenRoute, (route) => false);
                   },
                 ),
                 Divider(
@@ -61,7 +66,8 @@ class AdminDashboard extends StatelessWidget {
                     color: Color.fromARGB(255, 129, 198, 254),
                   ),
                   onTap: () {
-                    Navigator.of(context).pushNamed(EtudiantSignUp.screenRoute);
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, EtudiantSignUp.screenRoute, (route) => false);
                   },
                 ),
                 ListTile(
@@ -93,7 +99,10 @@ class AdminDashboard extends StatelessWidget {
                     size: 30,
                     color: Color.fromARGB(255, 189, 206, 217),
                   ),
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, gestionStagers.screenRoute, (route) => false);
+                  },
                 ),
                 ListTile(
                   title: Text("Formation disponibles",
@@ -126,7 +135,9 @@ class AdminDashboard extends StatelessWidget {
                     color: Color.fromARGB(255, 255, 0, 0),
                   ),
                   onTap: () {
-                    // Navigator.of(context).pop();
+                    Navigator.of(context).pop();
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, homePage.screenRoute, (route) => false);
                   },
                 ),
               ],
@@ -158,86 +169,146 @@ class AdminDashboard extends StatelessWidget {
                       true, // pour Eliminer l'error de succesive blocks of widgets;
                   crossAxisCount: 2,
                   children: [
-                    card_widget(
-                        Icon(
-                          Icons.home,
-                          size: 75,
-                          color: Colors.blue,
-                        ),
-                        "Home",
-                        () {}),
-                    card_widget(
-                        Icon(
-                          Icons.school,
-                          size: 75,
-                          color: Color.fromARGB(255, 255, 202, 26),
-                        ),
-                        "About School",
-                        () {}),
-                    card_widget(
-                        Icon(
-                          Icons.book,
-                          size: 75,
-                          color: Color.fromARGB(255, 0, 221, 255),
-                        ),
-                        "Formation",
-                        () {}),
-                    card_widget(
-                        Icon(
-                          Icons.inventory_sharp,
-                          size: 75,
-                          color: Color.fromARGB(255, 9, 124, 122),
-                        ),
-                        "Inscription",
-                        () {}),
-                    card_widget(
-                        Icon(
-                          Icons.attach_money_sharp,
-                          size: 75,
-                          color: Color.fromARGB(255, 9, 16, 97),
-                        ),
-                        "Payement",
-                        () {}),
-                    card_widget(
-                        Icon(
-                          Icons.group_add_outlined,
-                          size: 75,
-                          color: Color.fromARGB(255, 0, 171, 9),
-                        ),
-                        "Stagers",
-                        () {}),
-                    card_widget(
-                        Icon(
-                          Icons.category,
-                          size: 75,
-                          color: Color.fromARGB(255, 255, 136, 241),
-                        ),
-                        "Category",
-                        () {}),
-                    card_widget(
-                        Icon(
-                          Icons.maps_home_work_outlined,
-                          size: 75,
-                          color: Color.fromARGB(255, 119, 0, 223),
-                        ),
-                        "Location",
-                        () {}),
-                    card_widget(
-                        Icon(
-                          Icons.watch_later_outlined,
-                          size: 75,
-                          color: Colors.red[400],
-                        ),
-                        "Work Times",
-                        () {}),
-                    card_widget(
-                        Icon(
-                          Icons.pie_chart_rounded,
-                          size: 75,
-                          color: Color.fromARGB(255, 234, 255, 0),
-                        ),
-                        "Charts",
-                        () {}),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamedAndRemoveUntil(
+                            context, homePage.screenRoute, (route) => false);
+                      },
+                      child: card_widget(
+                          Icon(
+                            Icons.home,
+                            size: 75,
+                            color: Colors.blue,
+                          ),
+                          "Home",
+                          () {}),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamedAndRemoveUntil(
+                            context, aboutSchool.screenRoute, (route) => false);
+                      },
+                      child: card_widget(
+                          Icon(
+                            Icons.school,
+                            size: 75,
+                            color: Color.fromARGB(255, 255, 202, 26),
+                          ),
+                          "About School",
+                          () {}),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        // Navigator.pushNamedAndRemoveUntil(
+                        //     context, EtudiantSignUp.screenRoute, (route) => false);
+                      },
+                      child: card_widget(
+                          Icon(
+                            Icons.book,
+                            size: 75,
+                            color: Color.fromARGB(255, 0, 221, 255),
+                          ),
+                          "Formation",
+                          () {}),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamedAndRemoveUntil(context,
+                            EtudiantSignUp.screenRoute, (route) => false);
+                      },
+                      child: card_widget(
+                          Icon(
+                            Icons.inventory_sharp,
+                            size: 75,
+                            color: Color.fromARGB(255, 9, 124, 122),
+                          ),
+                          "Inscription",
+                          () {}),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamedAndRemoveUntil(context,
+                            gestionPaiement.screenRoute, (route) => false);
+                      },
+                      child: card_widget(
+                          Icon(
+                            Icons.attach_money_sharp,
+                            size: 75,
+                            color: Color.fromARGB(255, 9, 16, 97),
+                          ),
+                          "Payement",
+                          () {}),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamedAndRemoveUntil(context,
+                            gestionStagers.screenRoute, (route) => false);
+                      },
+                      child: card_widget(
+                          Icon(
+                            Icons.group_add_outlined,
+                            size: 75,
+                            color: Color.fromARGB(255, 0, 171, 9),
+                          ),
+                          "Stagers",
+                          () {}),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamedAndRemoveUntil(context,
+                            categoriesFormation.screenRoute, (route) => false);
+                      },
+                      child: card_widget(
+                          Icon(
+                            Icons.category,
+                            size: 75,
+                            color: Color.fromARGB(255, 255, 136, 241),
+                          ),
+                          "Category",
+                          () {}),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        // Navigator.pushNamedAndRemoveUntil(
+                        //     context, EtudiantSignUp.screenRoute, (route) => false);
+                      },
+                      child: card_widget(
+                          Icon(
+                            Icons.maps_home_work_outlined,
+                            size: 75,
+                            color: Color.fromARGB(255, 119, 0, 223),
+                          ),
+                          "Location",
+                          () {}),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        // Navigator.pushNamedAndRemoveUntil(
+                        //     context, EtudiantSignUp.screenRoute, (route) => false);
+                      },
+                      child: card_widget(
+                          Icon(
+                            Icons.watch_later_outlined,
+                            size: 75,
+                            color: Colors.red[400],
+                          ),
+                          "Work Times",
+                          () {}),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        // Navigator.pushNamedAndRemoveUntil(
+                        //     context, EtudiantSignUp.screenRoute, (route) => false);
+                      },
+                      child: card_widget(
+                          Icon(
+                            Icons.pie_chart_rounded,
+                            size: 75,
+                            color: Color.fromARGB(255, 234, 255, 0),
+                          ),
+                          "Charts",
+                          () {}),
+                    ),
                   ],
                 ),
               ),
@@ -252,6 +323,7 @@ class AdminDashboard extends StatelessWidget {
   // card widget function
   Card card_widget(Icon icon, String titre, Function onTap) {
     return Card(
+      shadowColor: Color.fromARGB(221, 136, 136, 136).withOpacity(.7),
       margin: EdgeInsets.all(8),
       child: InkWell(
         onTap: onTap(),
@@ -272,72 +344,86 @@ class AdminDashboard extends StatelessWidget {
   }
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // ================= bottom  Navigation bar de 3 pages =========
-class bottom_navigation extends StatefulWidget {
-  const bottom_navigation({Key? key}) : super(key: key);
+// class bottom_navigation extends StatefulWidget {
+//   const bottom_navigation({Key? key}) : super(key: key);
 
-  @override
-  State<bottom_navigation> createState() => _bottom_navigationState();
-}
+//   @override
+//   State<bottom_navigation> createState() => _bottom_navigationState();
+// }
 
-class _bottom_navigationState extends State<bottom_navigation> {
-  int index = 0;
-  final pages = [
-    Center(
-      child: Container(
-          child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            Icons.admin_panel_settings_outlined,
-            color: Colors.black87,
-            size: 30,
-          ),
-          SizedBox(
-            width: 10,
-          ),
-          Text(
-            "Admin Espace",
-            style: TextStyle(
-                fontSize: 20,
-                // fontWeight: FontWeight.bold,
-                color: Colors.black87),
-          ),
-        ],
-      )),
-    ),
-    Center(child: Text("page 1", style: TextStyle(fontSize: 35))),
-    Center(child: Text("page 2", style: TextStyle(fontSize: 35))),
-    Center(child: Text("page 3", style: TextStyle(fontSize: 35))),
-  ];
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: pages[index],
-      bottomNavigationBar: NavigationBar(
-          height: 60,
-          selectedIndex: index,
-          onDestinationSelected: (index) => setState(() => this.index = index),
-          destinations: [
-            NavigationDestination(
-              icon: Icon(Icons.home_outlined),
-              selectedIcon: Icon(Icons.home),
-              label: "Home",
-            ),
-            NavigationDestination(
-              icon: Icon(Icons.browse_gallery),
-              selectedIcon: Icon(Icons.room_service_outlined),
-              label: "Services",
-            ),
-            NavigationDestination(
-              icon: Icon(Icons.category_outlined),
-              selectedIcon: Icon(Icons.home),
-              label: "Formation",
-            ),
-          ]),
-    );
-  }
-}
+// class _bottom_navigationState extends State<bottom_navigation> {
+//   int index = 0;
+//   final pages = [
+//     Center(
+//       child: Container(
+//           child: Row(
+//         mainAxisAlignment: MainAxisAlignment.center,
+//         children: [
+//           Icon(
+//             Icons.admin_panel_settings_outlined,
+//             color: Colors.black87,
+//             size: 30,
+//           ),
+//           SizedBox(
+//             width: 10,
+//           ),
+//           Text(
+//             "Admin Espace",
+//             style: TextStyle(
+//                 fontSize: 20,
+//                 // fontWeight: FontWeight.bold,
+//                 color: Colors.black87),
+//           ),
+//         ],
+//       )),
+//     ),
+//     Center(child: Text("page 1", style: TextStyle(fontSize: 35))),
+//     Center(child: Text("page 2", style: TextStyle(fontSize: 35))),
+//     Center(child: Text("page 3", style: TextStyle(fontSize: 35))),
+//   ];
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       body: pages[index],
+//       bottomNavigationBar: NavigationBar(
+//           height: 60,
+//           selectedIndex: index,
+//           onDestinationSelected: (index) => setState(() => this.index = index),
+//           destinations: [
+//             NavigationDestination(
+//               icon: Icon(Icons.home_outlined),
+//               selectedIcon: Icon(Icons.home),
+//               label: "Home",
+//             ),
+//             NavigationDestination(
+//               icon: Icon(Icons.browse_gallery),
+//               selectedIcon: Icon(Icons.room_service_outlined),
+//               label: "Services",
+//             ),
+//             NavigationDestination(
+//               icon: Icon(Icons.category_outlined),
+//               selectedIcon: Icon(Icons.home),
+//               label: "Formation",
+//             ),
+//           ]),
+//     );
+//   }
+// }
 
 // fin bottom  Navigation bar de 3
 

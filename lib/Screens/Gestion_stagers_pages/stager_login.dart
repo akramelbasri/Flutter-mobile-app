@@ -1,8 +1,8 @@
-import 'dart:ffi';
+// import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 
-import '../Gestion_Admin_Pages/Not_found_page.dart';
+import '../not_found_pages_And_succees/Not_found_page_admin.dart';
 import 'package:prj1_image_bg/Screens/Gestion_stagers_pages/stager_acceil.dart';
 
 class stagersPage extends StatelessWidget {
@@ -127,18 +127,26 @@ class stagersPage extends StatelessWidget {
                                                   "please wait the verify data...")));
                                       if (stagerCIN.text == "stager" &&
                                           stagerPassword.text == "stager2002") {
-                                        Navigator.of(context).pushNamed(
-                                            stagerAcceil
-                                                .screenRoute); // stagers Espace
+                                        // if (Navigator.canPop(context)) {
+                                        //   Navigator.of(context).pushNamed(
+                                        //       stagerAcceil.screenRoute);
+                                        // }
+                                        Navigator.pushNamedAndRemoveUntil(
+                                            context,
+                                            stagerAcceil.screenRoute,
+                                            (route) => false); // stagers Espace
                                       } else {
                                         print("validation error !!!!!!!!!! ");
-                                        Navigator.of(context).pushNamed(
-                                            NotFoundPage
-                                                .screenRoute); // Error..
+                                        Navigator.pushNamedAndRemoveUntil(
+                                            context,
+                                            NotFoundPage.screenRoute,
+                                            (route) => false); // Error..
                                       }
                                     } else {
-                                      Navigator.of(context)
-                                          .pushNamed(NotFoundPage.screenRoute);
+                                      Navigator.pushNamedAndRemoveUntil(
+                                          context,
+                                          NotFoundPage.screenRoute,
+                                          (route) => false);
                                     }
                                   },
                                   child: Text(

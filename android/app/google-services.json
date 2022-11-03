@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "562029482222",
+    "project_id": "emailpasswordauth-ae2e8",
+    "storage_bucket": "emailpasswordauth-ae2e8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:562029482222:android:e02831d4c63ea089ca23ff",
+        "android_client_info": {
+          "package_name": "com.example.prj1_image_bg"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "562029482222-r55dqr3p1bk4n5lv94rm4l3uhr72b506.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDUR6pHOFt0NvTFPRvPtcfuQvnM-fpyukA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "562029482222-r55dqr3p1bk4n5lv94rm4l3uhr72b506.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

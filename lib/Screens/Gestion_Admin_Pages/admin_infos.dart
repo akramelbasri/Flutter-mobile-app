@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:prj1_image_bg/Screens/Gestion_Admin_Pages/Admin_dashboard.dart';
-import 'package:prj1_image_bg/Screens/Gestion_Admin_Pages/Not_found_page.dart';
+import 'package:prj1_image_bg/Screens/not_found_pages_And_succees/Not_found_page_admin.dart';
 import 'package:prj1_image_bg/Screens/Gestion_Admin_Pages/accueil.dart';
 
 class admin_login extends StatelessWidget {
@@ -12,6 +14,10 @@ class admin_login extends StatelessWidget {
   String _email = "";
   String _pass = "";
   static const screenRoute = "/AdminAccount";
+
+  // ---------------- firebase --------------- :
+  final _auth = FirebaseAuth.instance;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -27,6 +33,7 @@ class admin_login extends StatelessWidget {
                 fontSize: 23,
               ),
             ),
+            centerTitle: true,
             backgroundColor: Color.fromARGB(255, 31, 2, 100)),
         body: SingleChildScrollView(
           child: Container(
@@ -43,30 +50,39 @@ class admin_login extends StatelessWidget {
                   height: MediaQuery.of(context).size.height,
                   padding: EdgeInsets.symmetric(horizontal: 30),
                   child: Form(
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      // autovalidateMode: AutovalidateMode.onUserInteraction,
                       key: formKey,
                       child: Column(
                         children: [
                           TextFormField(
-                            // validator: (email) =>
-                            //     email != null && !EmailValidator.validate(email)
-                            //         ? "Entrer a valid Email " // form is not valid
-                            //         : null, // form is valid
-                            // controller: MyController,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return "Please Enter Your Email";
+                              }
+                              // reg expression for email validation
+                              if (!RegExp(// email filter
+                                      "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
+                                  .hasMatch(value)) {
+                                return ("Please Enter a valid email");
+                              }
+                              return null;
+                            },
                             controller: adminEmail,
+                            autofocus: false,
+                            keyboardType: TextInputType.emailAddress,
                             style: TextStyle(
                                 color: Color.fromARGB(179, 0, 0, 0),
                                 fontSize: 25),
                             decoration: InputDecoration(
                                 hintText: "Email",
                                 prefixIcon: Icon(
-                                  Icons.email_outlined,
+                                  Icons.perm_identity,
                                   size: 30,
                                 ),
                                 fillColor: Color.fromARGB(255, 147, 205, 224)
                                     .withOpacity(0.2),
                                 filled: true,
-                                labelText: "Email",
+                                labelText: "Email : ",
                                 border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10))),
                           ),
@@ -75,7 +91,7 @@ class admin_login extends StatelessWidget {
                             controller: adminPassword,
                             validator: (value) {
                               if (value != null && value.length < 6) {
-                                return "Enter min. 6 characters";
+                                return "Enter minimum. 6 characters";
                               } else {
                                 return null; // form is valid
                               }
@@ -110,26 +126,42 @@ class admin_login extends StatelessWidget {
                                       borderRadius: BorderRadius.all(
                                           Radius.circular(20))),
                                   onPressed: () {
-                                    final isValidate =
-                                        formKey.currentState!.validate();
-                                    if (isValidate) {
-                                      scaffoldKey.currentState!.showSnackBar(
-                                          SnackBar(
-                                              content: Text(
-                                                  "please wait the verify data...")));
-                                      if (adminEmail.text == "admin" &&
-                                          adminPassword.text == "admin2002") {
-                                        Navigator.of(context)
-                                            .pushNamed(AcceilPage.screenRoute);
-                                      } else {
-                                        print("object Eroororro");
-                                        Navigator.of(context).pushNamed(
-                                            NotFoundPage.screenRoute);
-                                      }
-                                    } else {
-                                      Navigator.of(context)
-                                          .pushNamed(NotFoundPage.screenRoute);
-                                    }
+                                    signIn(context, adminEmail.text,
+                                        adminPassword.text);
+                                    // final isValidate =
+                                    //     formKey.currentState!.validate();
+                                    // if (isValidate) {
+                                    //   scaffoldKey.currentState!.showSnackBar(
+                                    //       SnackBar(
+                                    //           content: Text(
+                                    //               "please wait the verify data...")));
+                                    // if (adminEmail.text == "admin" &&
+                                    //     adminPassword.text == "admin2002") {
+                                    // Navigator.pushNamedAndRemoveUntil(
+                                    //     context,
+                                    //     AcceilPage.screenRoute,
+                                    //     (route) => false);
+                                    //   print("information is true");
+                                    //   print(adminEmail.text +
+                                    //       adminPassword.text);
+                                    // } else {
+                                    // print("object Error");
+                                    // Navigator.pushNamedAndRemoveUntil(
+                                    //     context,
+                                    //     NotFoundPage.screenRoute,
+                                    //     (route) => false);
+                                    print("information is False");
+                                    print(adminEmail.text + adminPassword.text);
+                                    //   }
+                                    // } else {
+                                    // Navigator.pushNamedAndRemoveUntil(
+                                    //     context,
+                                    //     NotFoundPage.screenRoute,
+                                    //     (route) => false);
+                                    //   print("information is False");
+                                    //   print(
+                                    //       adminEmail.text + adminPassword.text);
+                                    // }
                                     // print("Raise button clicked");
                                     // if (!_formKey.currentState.validate()) {
                                     //   return;
@@ -152,5 +184,22 @@ class admin_login extends StatelessWidget {
         ),
       ),
     );
+  }
+
+// creation the login function
+  void signIn(BuildContext context, String email, String password) async {
+    if (formKey.currentState!.validate()) {
+      await _auth
+          .signInWithEmailAndPassword(email: email, password: password)
+          .then((UserId) => {
+                // do this if signIn successfuly passed.
+                Fluttertoast.showToast(msg: "Login Successful"),
+                Navigator.pushNamedAndRemoveUntil(
+                    context, AdminDashboard.screenRoute, (route) => false),
+              })
+          .catchError((e) {
+        Fluttertoast.showToast(msg: e!.message);
+      });
+    }
   }
 }

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:prj1_image_bg/Screens/Gestion_Admin_Pages/admin_infos.dart';
+import 'package:prj1_image_bg/Screens/Gestion_Admin_Pages/forms_inscription/add_stager.dart';
 
-class NotFoundPage extends StatelessWidget {
-  const NotFoundPage({Key? key}) : super(key: key);
-  static const screenRoute = "/NotFoundPage";
+class NotFoundPageAddStager extends StatelessWidget {
+  const NotFoundPageAddStager({Key? key}) : super(key: key);
+  static const screenRoute = "/NotFoundPageAddStager";
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -12,20 +13,12 @@ class NotFoundPage extends StatelessWidget {
           Container(
             height: 400,
             child: Image(
-              image: AssetImage("images/notFoundbg3.png"),
+              image: AssetImage("images/error-404_img.png"),
               fit: BoxFit.contain,
             ),
           ),
           Column(
             children: [
-              Container(
-                child: Text("page not found ! Try again...",
-                    style: TextStyle(
-                      color: Color.fromARGB(255, 0, 127, 254),
-                      fontSize: 25,
-                      // fontWeight: FontWeight.bold
-                    )),
-              ),
               SizedBox(
                 height: 35,
               ),
@@ -33,12 +26,12 @@ class NotFoundPage extends StatelessWidget {
                 color: Color.fromARGB(255, 255, 255, 255),
                 width: MediaQuery.of(context).size.width - 50,
                 child: RaisedButton(
-                  color: Color.fromARGB(255, 254, 131, 0),
+                  color: Color.fromARGB(255, 0, 162, 255).withOpacity(.7),
                   child: Text(
-                    "Go back",
+                    "Back",
                     style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 22,
+                        color: Color.fromARGB(255, 0, 0, 0).withOpacity(.7),
+                        fontSize: 24,
                         fontWeight: FontWeight.bold),
                   ),
                   // color: Color.fromARGB(255, 255, 51, 0).withOpacity(.3),
@@ -46,7 +39,8 @@ class NotFoundPage extends StatelessWidget {
                       borderRadius: BorderRadius.all(Radius.circular(20))),
                   padding: EdgeInsets.all(10),
                   onPressed: () {
-                    Navigator.of(context).pushNamed(admin_login.screenRoute);
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, AddStager.screenRoute, (route) => false);
                   },
                 ),
               )

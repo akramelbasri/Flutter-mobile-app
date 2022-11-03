@@ -193,11 +193,13 @@ class EtudiantSignUp extends StatelessWidget {
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white),
                           )));
-                          Navigator.of(context).pushNamed(singnup2.screenRoute
-                              // ,
-                              // arguments: getArgs(
-                              //     FirstName as String, LastName as String)
-                              );
+                          // arguments: getArgs(
+                          //     FirstName as String, LastName as String)
+                          // );
+                          Navigator.pushNamedAndRemoveUntil(
+                              context, singnup2.screenRoute, (route) => false);
+                        } else {
+                          print("-------> push singn Up 2 Error ");
                         }
                       }))
             ],
